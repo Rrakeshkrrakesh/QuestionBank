@@ -52,7 +52,7 @@ Answer: B
 
 PDF content: {pdf_content}
 """
-    response = model.text.generate(prompt=prompt)
+    response = model.content.generate(prompt=prompt)
 
     # Parse the response and extract questions and answers
     questions = []
@@ -77,7 +77,7 @@ PDF content: {pdf_content}
 
 def grade_difficulty(question):
     prompt = f"On a scale of 1 to 5 (1=very easy, 5=very hard), rate the difficulty of this question, considering the context of the provided document: \n{question}"
-    response = model.text.generate(prompt=prompt)
+    response = model.content.generate(prompt=prompt)
     try:
         difficulty = int(response.strip())
         return difficulty
