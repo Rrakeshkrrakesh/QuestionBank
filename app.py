@@ -2,6 +2,8 @@ import streamlit as st
 import google.generativeai as genai
 import PyPDF2
 import os
+from io import BytesIO       # Import BytesIO
+
 
 # Load the API key from Streamlit secrets
 try:
@@ -15,9 +17,10 @@ except Exception as e:
     st.error(f"An error occurred during API setup: {e}")
     st.stop()
 
+
 def extract_text_from_pdf(file_contents):
     try:
-        pdf_reader = PyPDF2.PdfReader(file_contents)
+        pdf_reader = PyPDF2.PdfReader(BytesIO(file_contents))  # Wrap bytes in BytesIO
         text = ""
         for page in pdf_reader.pages:
             text += page.extract_text()
