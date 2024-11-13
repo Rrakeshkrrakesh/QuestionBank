@@ -29,7 +29,7 @@ def extract_text_from_pdf(file_contents):
         st.error(f"Error extracting text from PDF: {e}")
         return None
 
-def generate_content(pdf_content):
+def generate_questions(pdf_content):
     prompt = f"""You are an expert in the field related to the content of this PDF. Based on this PDF content, generate 5 multiple-choice questions, each with 4 options (A, B, C, D), and clearly indicate the correct answer. The questions should assess understanding of the key concepts and information presented in the PDF.
 
 Format your response EXACTLY as follows:
@@ -52,7 +52,7 @@ Answer: B
 
 PDF content: {pdf_content}
 """
-    response = model.generate_content(prompt=prompt)
+    response = model.text.generate(prompt=prompt)
 
     # Parse the response and extract questions and answers
     questions = []
@@ -77,7 +77,7 @@ PDF content: {pdf_content}
 
 def grade_difficulty(question):
     prompt = f"On a scale of 1 to 5 (1=very easy, 5=very hard), rate the difficulty of this question, considering the context of the provided document: \n{question}"
-    response = model.generate_content(prompt=prompt)
+    response = model.text.generate(prompt=prompt)
     try:
         difficulty = int(response.strip())
         return difficulty
@@ -96,7 +96,7 @@ if uploaded_file:
         if "score" not in st.session_state:
             st.session_state.score = 0
         if "questions" not in st.session_state:
-            st.session_state.questions = generate_content(pdf_text)
+            st.session_state.questions = generate_questions(pdf_text)
 
         if st.session_state.questions:
             for i, question in enumerate(st.session_state.questions):
