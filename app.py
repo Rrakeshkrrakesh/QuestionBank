@@ -96,7 +96,7 @@ if uploaded_file:
         if "score" not in st.session_state:
             st.session_state.score = 0
         if "questions" not in st.session_state:
-            st.session_state.questions = generate_questions(pdf_text)
+            st.session_state.questions = generate_content(pdf_text)
 
         if st.session_state.questions:
             for i, question in enumerate(st.session_state.questions):
