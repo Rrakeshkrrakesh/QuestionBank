@@ -5,9 +5,9 @@ import os
 
 # Load the API key from Streamlit secrets
 try:
-    api_key = st.secrets["google_api"]["api_key"]
+    api_key = st.secrets["GEMINI_API_KEY"]  
     genai.configure(api_key=api_key)
-    model = genai.Text("gemini-pro")
+    model = genai.GenerativeModel("gemini-1.5-flash")
 except KeyError:
     st.error("API key not found in Streamlit secrets.")
     st.stop()
